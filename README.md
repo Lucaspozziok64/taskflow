@@ -27,7 +27,6 @@ Este proyecto busca organizar tareas de manera simple y escalable.
 
 ## 🛠️ Tecnologías utilizadas
 
-### 🛍️ Usuario final
 - React Native (Expo): framework principal.
 
 - TypeScript: tipado estático para mayor robustez.
