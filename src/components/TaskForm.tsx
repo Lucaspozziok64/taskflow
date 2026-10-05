@@ -4,10 +4,11 @@ import { Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpac
 export default function TaskForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("trabajo");
+  const [category, setCategory] = useState("Trabajo");
 
   const [touchedTitle, setTouchedTitle] = useState(false);
   const [touchedDescription, setTouchedDescription] = useState(false);
+   const [touchedCategory, setTouchedCategory] = useState(false);
 
   const handleAddTask = () => {
     setTouchedTitle(true);
@@ -20,25 +21,26 @@ export default function TaskForm() {
       title: title.trim(),
       description: description.trim(),
       category,
-      creadAtAt: new Date()
+      createdAt: new Date()
     }
     console.log("Tarea creada:", task);
     Alert.alert("Exito", "Tarea capturada localmente..")
     setTitle("");
     setDescription("");
-    setCategory("trabajo");
+    setCategory("Trabajo");
     setTouchedDescription(false);
     setTouchedTitle(false);
   }
   const titleError = touchedTitle && title.trim().length < 5
   const descriptionError = touchedDescription && description.trim().length < 10
+  const categoryError = touchedCategory && !category;
 
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Text style={styles.title}>Nueva Tarea</Text>
       <Text style={styles.label}>Titulo</Text>
       <TextInput
-        placeholder="Titulo de la tarea"
+        placeholder="Ingresa el titulo de la tarea"
         value={title}
         onChangeText={setTitle}
         onBlur={() => setTouchedTitle(true)}
@@ -54,7 +56,7 @@ export default function TaskForm() {
       <Text style={styles.label}>Descripcion</Text>
       <TextInput
         style={[styles.input, styles.description, descriptionError && styles.errorInput]}
-        placeholder="Descripcion"
+        placeholder="Ingresa la descripcion de la tarea"
         value={description}
         onChangeText={setDescription}
         onBlur={() => setTouchedDescription(true)}
@@ -81,6 +83,7 @@ export default function TaskForm() {
           ))
         }
       </View>
+      {categoryError && <Text style={styles.error}>Debes seleccionar una categoría</Text>}
 
       {/* BOTON GUARDAR */}
       <TouchableOpacity
@@ -112,6 +115,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 6,
     marginTop: 12,
+    backgroundColor: 'gray',
+    color: 'white',
+    paddingHorizontal: 4,
+    alignSelf: 'flex-start'
   },
   input: {
     borderWidth: 1,
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   description: {
-    height: 100,
+    height: 70,
   },
   errorInput: {
     borderColor: 'red',
