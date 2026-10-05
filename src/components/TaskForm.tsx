@@ -38,7 +38,7 @@ export default function TaskForm() {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Text style={styles.title}>Nueva Tarea</Text>
-      <Text style={styles.label}>Titulo</Text>
+      <Text style={styles.label}>Titulo*</Text>
       <TextInput
         placeholder="Ingresa el titulo de la tarea"
         value={title}
@@ -53,7 +53,7 @@ export default function TaskForm() {
       )}
 
       {/* DESCRIPCION */}
-      <Text style={styles.label}>Descripcion</Text>
+      <Text style={styles.label}>Descripcion*</Text>
       <TextInput
         style={[styles.input, styles.description, descriptionError && styles.errorInput]}
         placeholder="Ingresa la descripcion de la tarea"
@@ -69,7 +69,7 @@ export default function TaskForm() {
       )}
 
       {/* CATEGORIA */}
-      <Text style={styles.label}>Categoria</Text>
+      <Text style={styles.label}>Categoria*</Text>
       <View style={styles.categories}>
         {
           ["Trabajo", "Estudio", "Personal"].map((item) => (
