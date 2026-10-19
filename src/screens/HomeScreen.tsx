@@ -3,9 +3,15 @@ import { FlatList, Text, TouchableOpacity, StyleSheet, View, } from 'react-nativ
 import EmptyState from '../components/EmptyState';
 import TaskDetail from '../components/TaskDetail';
 import { Task } from '../constants/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { TasksStackParamList } from '../navigation/TasksStack';
+
+type HomeNavProp = NativeStackNavigationProp<TasksStackParamList, "TaskList">
 
 export default function HomeScreen() {
-  const [tasks, setTasks] = useState<Task[]>([
+  const navigation = useNavigation<HomeNavProp>()
+  const [tasks] = useState<Task[]>([
     {
       id: '1',
       title: 'Titulo del componente FlatList',
@@ -21,12 +27,29 @@ export default function HomeScreen() {
       createdAt: new Date(),
     },
   ]);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+  const handleTaskpress = (task: Task) => {
+    navigation.navigate("TaskDetail", {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      category: task.category,
+      createdAt: task.createdAt.toISOString(),
+    })
+  }
+
+  const handleAddPress = () => {
+    navigation.navigate("TaskForm");
+  }
+
+
+  /*onst [selectedTask, setSelectedTask] = useState<Task | null>(null);
   if (selectedTask) {
     return (
       <TaskDetail task={selectedTask} onBack={() => setSelectedTask(null)} />
     );
-  }
+  }*/
+ 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Lista de tareas</Text>
@@ -37,13 +60,16 @@ export default function HomeScreen() {
           data={tasks}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.card} onPress={() => setSelectedTask(item)}>
+            <TouchableOpacity style={styles.card} onPress={() => handleTaskpress(item)}>
               <Text style={styles.taskTitle}>{item.title}</Text>
-              <Text>{item.category}</Text>
+              <Text style={{ color: 'white' }}>{item.category}</Text>
             </TouchableOpacity>
           )}
         />
       )}
+      <TouchableOpacity onPress={handleAddPress}>
+        <Text style={styles.fabText}>Agregar tarea</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -77,4 +103,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
+  fabText: {
+    padding: 15,
+    backgroundColor: 'purple',
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold'
+  }
 });

@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { TasksStackParamList } from "../navigation/TasksStack";
+import { COLORS } from "../constants/theme";
+
+type TaskFormNavProp = NativeStackNavigationProp<TasksStackParamList, "TaskForm">
 
 export default function TaskForm() {
+  const navigation = useNavigation<TaskFormNavProp>()
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Trabajo");
@@ -30,6 +37,8 @@ export default function TaskForm() {
     setCategory("Trabajo");
     setTouchedDescription(false);
     setTouchedTitle(false);
+
+    navigation.navigate("TaskList")
   }
   const titleError = touchedTitle && title.trim().length < 5
   const descriptionError = touchedDescription && description.trim().length < 10
@@ -90,7 +99,7 @@ export default function TaskForm() {
         style={styles.button}
         onPress={handleAddTask}
       >
-        <Text>Guardar</Text>
+        <Text style={styles.buttonText}>Guardar</Text>
       </TouchableOpacity>
 
     </KeyboardAvoidingView>
