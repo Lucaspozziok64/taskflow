@@ -1,20 +1,26 @@
-# 🚀 TaskFlow
+# 📱 TaskFlow
 
-Aplicación desarrollada con React Native y Expo utilizando React Navigation para gestionar la navegación mediante Bottom Tabs y Stack Navigator.
+Aplicación de gestión de tareas desarrollada con React Native y Expo utilizando React Navigation y Redux Toolkit.
 
-####
+## 🎥 Demo
 
-## 🎥 Video Demo
+- En el video no se llega apreciar bien los colores por el navegador pero se muestra eficazmente las funcionalidaes
 
-[Ver demostración completa]
-https://res.cloudinary.com/dduqetzqk/video/upload/v1792438656/Grabaci%C3%B3n_de_pantalla_2026-10-19_163136_vuk0iu.mp4
+[Ver demo de la aplicación]
+<video controls src="https://res.cloudinary.com/dduqetzqk/video/upload/v1793026789/Grabaci%C3%B3n_de_pantalla_2026-10-26_115610_dcbasn.mp4" title="URL_DE_TU_VIDEO_EN_CLOUDINARY"></video>
 
-El video muestra:
+---
 
-- Navegación mediante Bottom Tabs.
-- Creación de tareas desde TaskForm.
-- Visualización de detalles de tareas.
-- Navegación hacia ProfileScreen.4
+## 🚀 Tecnologías utilizadas
+
+- React Native
+- Expo
+- TypeScript
+- React Navigation
+- Redux Toolkit
+- React Redux
+
+---
 
 ## 📂 Estructura del Proyecto
 
@@ -40,22 +46,19 @@ src
 │   ├── HomeScreen.tsx
 │   ├── ProfileScreen.tsx
 │   └── TaskDetailScreen.tsx
+│
+├── store
+│   ├── hooks.ts
+│   ├── store.ts
+│   └── slices
+│       └── tasksSlice.ts
 ```
 
 ---
 
 # 🧭 Arquitectura de Navegación
 
-La aplicación combina:
-
-- Bottom Tab Navigator
-- Native Stack Navigator
-
-para separar la navegación principal del flujo de tareas.
-
----
-
-# 📱 Navegación General
+La aplicación combina Bottom Tabs y Stack Navigation para organizar la experiencia del usuario.
 
 ```text
 App
@@ -66,7 +69,7 @@ App
     │   │
     │   └── Tasks Stack
     │       │
-    │       ├── TaskList (HomeScreen)
+    │       ├── TaskList
     │       ├── TaskForm
     │       └── TaskDetail
     │
@@ -77,47 +80,97 @@ App
 
 ---
 
-# 🏠 Flujo de Tareas
+# 🗃 Gestión de Estado con Redux Toolkit
 
-La pestaña Home carga el Stack de tareas.
+La aplicación utiliza Redux Toolkit para centralizar el estado de las tareas.
+
+## Store
+
+Archivo:
 
 ```text
-Home Tab
-│
-└── TaskList
-    │
-    ├── Botón "Agregar tarea"
-    │       │
-    │       ▼
-    │    TaskForm
-    │
-    └── Seleccionar tarea
-            │
-            ▼
-       TaskDetail
+src/store/store.ts
 ```
 
-### Flujo de navegación
+Configura el store principal de Redux y registra los reducers de la aplicación.
 
-#### Crear una tarea
+## Slice de tareas
+
+Archivo:
+
+```text
+src/store/slices/tasksSlice.ts
+```
+
+Contiene:
+
+- Estado global de tareas.
+- Acciones para agregar tareas.
+- Acciones para completar tareas.
+- Manejo centralizado del listado de tareas.
+
+## Hooks tipados
+
+Archivo:
+
+```text
+src/store/hooks.ts
+```
+
+Define hooks personalizados para mejorar el tipado de Redux.
+
+```ts
+useAppDispatch()
+useAppSelector()
+```
+
+---
+
+# 🔄 Integración con Provider
+
+El store es inyectado en toda la aplicación mediante el Provider de React Redux.
 
 ```tsx
-navigation.navigate("TaskForm");
+<Provider store={store}>
+  <AppNavigator />
+</Provider>
 ```
 
+Esto permite acceder al estado global desde cualquier pantalla o componente.
+
+---
+
+# ✅ Funcionalidades Implementadas
+
+### Crear tareas
+
+Los usuarios pueden registrar nuevas tareas desde:
+
 ```text
-TaskList
+Home
 ↓
 TaskForm
 ```
 
-#### Ver detalle de una tarea
+Las tareas se almacenan en el estado global gestionado por Redux.
 
-```tsx
-navigation.navigate("TaskDetail", {
-  taskId: item.id,
-});
+---
+
+### Visualizar tareas
+
+Desde Home se muestran todas las tareas registradas.
+
+```text
+Home
+↓
+Lista de tareas
 ```
+
+---
+
+### Ver detalle de una tarea
+
+Al seleccionar una tarea:
 
 ```text
 TaskList
@@ -125,119 +178,107 @@ TaskList
 TaskDetail
 ```
 
+Se muestra toda la información relacionada con la tarea seleccionada.
+
 ---
 
-# 👤 Flujo de Perfil
+### Marcar tarea como completada
 
-La pestaña Perfil redirige a la pantalla de perfil.
+Desde la pantalla de detalle es posible actualizar el estado de una tarea.
 
 ```text
-Bottom Tab
+TaskDetail
 ↓
+Completar tarea
+```
+
+Redux actualiza automáticamente la interfaz.
+
+---
+
+### Filtros de tareas
+
+La pantalla principal permite filtrar las tareas según su estado:
+
+#### Todas
+
+```text
+Muestra todas las tareas registradas
+```
+
+#### Pendientes
+
+```text
+Muestra únicamente tareas sin completar
+```
+
+#### Completadas
+
+```text
+Muestra únicamente tareas finalizadas
+```
+
+---
+
+# 🎯 Flujo de Usuario
+
+```text
+Home
+│
+├── Crear tarea
+│       │
+│       ▼
+│    TaskForm
+│
+├── Ver tarea
+│       │
+│       ▼
+│   TaskDetail
+│       │
+│       ▼
+│ Completar tarea
+│
+└── Filtrar tareas
+        │
+        ├── Todas
+        ├── Pendientes
+        └── Completadas
+
 Profile
-↓
-ProfileScreen
-```
-
-Configuración:
-
-```tsx
-<Tab.Screen
-  name="Profile"
-  component={ProfileScreen}
-/>
-```
-
----
-
-# 📦 Configuración de Navegadores
-
-## AppNavigator
-
-Gestiona las pestañas principales.
-
-```text
-Bottom Tabs
 │
-├── Home
-└── Profile
-```
-
-Ejemplo:
-
-```tsx
-<Tab.Navigator>
-  <Tab.Screen
-    name="Home"
-    component={TasksStack}
-  />
-
-  <Tab.Screen
-    name="Profile"
-    component={ProfileScreen}
-  />
-</Tab.Navigator>
+└── ProfileScreen
 ```
 
 ---
 
-## TasksStack
+# 📦 Instalación
 
-Gestiona todo el flujo de tareas.
-
-```text
-Tasks Stack
-│
-├── TaskList
-├── TaskForm
-└── TaskDetail
-```
-
-Ejemplo:
-
-```tsx
-<Stack.Navigator>
-  <Stack.Screen
-    name="TaskList"
-    component={HomeScreen}
-  />
-
-  <Stack.Screen
-    name="TaskForm"
-    component={TaskForm}
-  />
-
-  <Stack.Screen
-    name="TaskDetail"
-    component={TaskDetailScreen}
-  />
-</Stack.Navigator>
-```
-
----
-
-# 🔄 Flujo Completo del Usuario
-
-```text
-                App
-                 │
-      ┌──────────┴──────────┐
-      │                     │
-   Home Tab            Profile Tab
-      │                     │
-      ▼                     ▼
-  TaskList             ProfileScreen
-      │
-      ├────────► TaskForm
-      │
-      └────────► TaskDetail
-```
-
----
-
-# 📚 Dependencias
+Clonar repositorio:
 
 ```bash
+git clone <url-del-repositorio>
+```
+
+Instalar dependencias:
+
+```bash
+npm install
+```
+
+Ejecutar proyecto:
+
+```bash
+npm start
+```
+
+---
+
+# 📚 Dependencias principales
+
+```bash
+npm install @reduxjs/toolkit
+npm install react-redux
+
 npm install @react-navigation/native
 npm install @react-navigation/native-stack
 npm install @react-navigation/bottom-tabs
@@ -254,6 +295,15 @@ npx expo install react-native-reanimated
 
 ---
 
-# 🎯 Resumen
+# 🎯 Características
 
-La aplicación utiliza un **Bottom Tab Navigator** para las secciones principales (**Home** y **Profile**) y un **Stack Navigator** dentro de Home para gestionar el flujo de tareas. Desde **TaskList** el usuario puede crear una nueva tarea mediante **TaskForm** o visualizar una tarea específica mediante **TaskDetail**. La pestaña **Profile** dirige directamente a **ProfileScreen**.
+- ✅ Navegación con Bottom Tabs.
+- ✅ Navegación Stack para flujo de tareas.
+- ✅ Gestión global de estado con Redux Toolkit.
+- ✅ Hooks tipados para Redux.
+- ✅ Creación de tareas.
+- ✅ Listado dinámico de tareas.
+- ✅ Detalle de tarea.
+- ✅ Marcar tareas como completadas.
+- ✅ Filtrado por estado.
+- ✅ Arquitectura escalable basada en componentes.
