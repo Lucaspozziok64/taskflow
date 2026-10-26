@@ -6,15 +6,9 @@ import { COLORS } from "../constants/theme";
 
 export type TasksStackParamList = {
   TaskList: undefined;
-  TaskDetail: {
-    id: string,
-    title: string,
-    description: string,
-    category: string,
-    createdAt: string
-  };
-  TaskForm: undefined
-}
+  TaskDetail: { id: string };
+  TaskForm: undefined;
+};
 
 const Stack = createNativeStackNavigator<TasksStackParamList>()
 

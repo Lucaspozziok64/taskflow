@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native"
 import { ProfileCards } from "../components/ProfileCards"
 import { COLORS } from "../constants/theme"
 
-export function ProfileScreen() {
+export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>

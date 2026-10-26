@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { ProfileScreen } from "../screens/ProfileScreen";
+import ProfileScreen from "../screens/ProfileScreen"
 import { COLORS } from "../constants/theme";
 import TasksStack from "./TasksStack";
 

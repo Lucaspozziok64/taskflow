@@ -5,10 +5,10 @@ type Props = {
   name: string;
   role: string;
   image: string;
-  isActive: boolean;
+  isActive?: boolean;
 }
 
-export function ProfileCards({ name, role, image, isActive = false }: Props) {
+export function ProfileCards({ name, role, image, isActive = true }: Props) {
   return (
     <View style={styles.card}>
       <Image source={{ uri: image }} style={styles.avatar} />
