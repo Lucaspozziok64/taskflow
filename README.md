@@ -6,8 +6,7 @@ Aplicación de gestión de tareas desarrollada con React Native y Expo utilizand
 
 - En el video no se llega apreciar bien los colores por el navegador pero se muestra eficazmente las funcionalidaes
 
-[Ver demo de la aplicación]
-<video controls src="https://res.cloudinary.com/dduqetzqk/video/upload/v1793026789/Grabaci%C3%B3n_de_pantalla_2026-10-26_115610_dcbasn.mp4" title="URL_DE_TU_VIDEO_EN_CLOUDINARY"></video>
+[Ver demo de la aplicación](https://res.cloudinary.com/dduqetzqk/video/upload/v1793026789/Grabaci%C3%B3n_de_pantalla_2026-10-26_115610_dcbasn.mp4)
 
 ---
 
